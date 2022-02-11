@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Linking} from 'react-native';
+import {ScrollView, Linking} from 'react-native';
 import {RowItem, RowSeparator} from '../components/RowItem';
 
 function openLink(url) {

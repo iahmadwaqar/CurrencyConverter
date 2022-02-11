@@ -4,4 +4,5 @@ export default {
   divider: '#E2E2E2',
   blue: '#00A0FF',
   lightGreen: '#4f6d7a',
+  white: '#fff',
 };
