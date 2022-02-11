@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Linking} from 'react-native';
+import {View, Linking, StatusBar} from 'react-native';
 import {RowItem, RowSeparator} from '../components/RowItem';
 
 function openLink(url) {
@@ -10,7 +10,8 @@ function openLink(url) {
 
 const Options = () => {
   return (
-    <ScrollView>
+    <View>
+      <StatusBar barStyle="dark-content" backgroundColor={'white'} />
       <RowItem
         title={'Theme'}
         icon={'chevron-right'}
@@ -28,7 +29,7 @@ const Options = () => {
       <RowSeparator />
 
       <RowItem title={'Rss Item'} icon={'rss'} onPress={() => alert('Hedll')} />
-    </ScrollView>
+    </View>
   );
 };
 
