@@ -1,20 +1,35 @@
-import React from 'react';
-import {StatusBar, StyleSheet, FlatList, Text} from 'react-native';
-import colors from '../constants/colors';
+import React, {useContext} from 'react';
+import {FlatList} from 'react-native';
+
 import currencies from '../data/currencies';
 import {RowItem, RowSeparator} from '../components/RowItem';
+import {ConversionContext} from '../util/ConversionContext';
 
 const CurrencyList = ({navigation, route = {}}) => {
-  const {activeCurrency, onSetCurrency} = route.params;
+  const {baseCurrency, setBaseCurrency, targetCurrency, setTargetCurrency} =
+    useContext(ConversionContext);
+  const {isBaseCurrency} = route.params;
+
   const renderItem = ({item}) => {
+    let selected = false;
+    if (isBaseCurrency) {
+      selected = baseCurrency === item;
+    } else {
+      selected = targetCurrency === item;
+    }
+
     return (
       <RowItem
         title={item}
         onPress={() => {
-          onSetCurrency && onSetCurrency(item);
+          if (isBaseCurrency) {
+            setBaseCurrency(item);
+          } else {
+            setTargetCurrency(item);
+          }
           navigation.pop();
         }}
-        icon={activeCurrency === item && 'check'}
+        icon={selected && 'check'}
       />
     );
   };

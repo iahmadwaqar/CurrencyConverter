@@ -6,6 +6,7 @@ import {Entypo} from '@expo/vector-icons';
 import Home from '../screens/Home';
 import Options from '../screens/Options';
 import CurrencyList from '../screens/CurrencyList';
+import ConversionContextProvider from '../util/ConversionContext';
 
 import colors from '../constants/colors';
 import {TouchableOpacity} from 'react-native';
@@ -50,7 +51,9 @@ function MainNavigation() {
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <MainNavigation />
+      <ConversionContextProvider>
+        <MainNavigation />
+      </ConversionContextProvider>
     </NavigationContainer>
   );
 };

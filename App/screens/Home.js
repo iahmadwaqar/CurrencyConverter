@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -10,21 +10,24 @@ import {
 } from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 import {format} from 'date-fns';
+
 import colors from '../constants/colors';
 import Button from '../components/Button';
 import ConversionInput from '../components/ConversionInput';
+import {ConversionContext} from '../util/ConversionContext';
 
 const Home = ({navigation, route}) => {
-  const [baseCurrency, setBaseCurrency] = useState('USD');
-  const [targetCurrency, setTargetCurrency] = useState('PKR');
   const [text, setText] = useState('');
 
-  const swapCurrencies = () => {
-    setBaseCurrency(targetCurrency);
-    setTargetCurrency(baseCurrency);
-  };
-
-  const conversionRate = '175.00';
+  const {
+    baseCurrency,
+    setBaseCurrency,
+    targetCurrency,
+    setTargetCurrency,
+    conversionRate,
+    setConversionRate,
+    swapCurrencies,
+  } = useContext(ConversionContext);
 
   return (
     <View style={styles.container}>
@@ -51,8 +54,7 @@ const Home = ({navigation, route}) => {
           onPress={() =>
             navigation.navigate('CurrencyList', {
               title: 'Base Currency',
-              activeCurrency: baseCurrency,
-              onSetCurrency: currency => setBaseCurrency(currency),
+              isBaseCurrency: true,
             })
           }
           value={text}
@@ -65,8 +67,7 @@ const Home = ({navigation, route}) => {
           onPress={() =>
             navigation.navigate('CurrencyList', {
               title: 'Target Currency',
-              activeCurrency: targetCurrency,
-              onSetCurrency: currency => setBaseCurrency(currency),
+              isBaseCurrency: false,
             })
           }
           value={text && (text * conversionRate).toFixed(2).toString()}
