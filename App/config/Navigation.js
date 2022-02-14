@@ -1,14 +1,36 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Entypo} from '@expo/vector-icons';
+
 import Home from '../screens/Home';
 import Options from '../screens/Options';
+import CurrencyList from '../screens/CurrencyList';
+
+import colors from '../constants/colors';
+import {TouchableOpacity} from 'react-native';
 
 const Stack = createNativeStackNavigator();
-
 function MainNavigation() {
+  const navigation = useNavigation();
+
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator mode="modal" initialRouteName="Home">
+      <Stack.Screen
+        name="CurrencyList"
+        component={CurrencyList}
+        options={({route}) => ({
+          title: route.params && route.params.title,
+          headerBackVisible: false,
+          headerLeft: null,
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo name="cross" size={30} color={colors.lightGreen} />
+            </TouchableOpacity>
+          ),
+          animation: 'fade',
+        })}
+      />
       <Stack.Screen
         name="Home"
         component={Home}
@@ -16,7 +38,11 @@ function MainNavigation() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="Options" component={Options} />
+      <Stack.Screen
+        name="Options"
+        component={Options}
+        options={{animation: 'slide_from_right'}}
+      />
     </Stack.Navigator>
   );
 }

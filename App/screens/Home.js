@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -14,11 +14,18 @@ import colors from '../constants/colors';
 import Button from '../components/Button';
 import ConversionInput from '../components/ConversionInput';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
+  const [baseCurrency, setBaseCurrency] = useState('USD');
+  const [targetCurrency, setTargetCurrency] = useState('PKR');
   const [text, setText] = useState('');
-  const baseCurrency = 'USD';
-  const targetCurrency = 'PKR';
+
+  const swapCurrencies = () => {
+    setBaseCurrency(targetCurrency);
+    setTargetCurrency(baseCurrency);
+  };
+
   const conversionRate = '175.00';
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.lightGreen} />
@@ -41,7 +48,13 @@ const Home = ({navigation}) => {
         <Text style={styles.header}>Currency Converter</Text>
         <ConversionInput
           text={baseCurrency}
-          onPress={() => navigation.navigate('Options')}
+          onPress={() =>
+            navigation.navigate('CurrencyList', {
+              title: 'Base Currency',
+              activeCurrency: baseCurrency,
+              onSetCurrency: currency => setBaseCurrency(currency),
+            })
+          }
           value={text}
           keyboardType={'numeric'}
           onChangeText={text => setText(text)}
@@ -49,8 +62,14 @@ const Home = ({navigation}) => {
         />
         <ConversionInput
           text={targetCurrency}
-          onPress={() => alert('Conversion Button')}
-          value={text}
+          onPress={() =>
+            navigation.navigate('CurrencyList', {
+              title: 'Target Currency',
+              activeCurrency: targetCurrency,
+              onSetCurrency: currency => setBaseCurrency(currency),
+            })
+          }
+          value={text && (text * conversionRate).toFixed(2).toString()}
           placeholder={'Result'}
           editable={false}
         />
@@ -60,10 +79,7 @@ const Home = ({navigation}) => {
             'MMMM do, yyyy',
           )}`}
         </Text>
-        <Button
-          onPress={() => alert('Conversion Button')}
-          text={'Swap Currency'}
-        />
+        <Button onPress={() => swapCurrencies()} text={'Swap Currency'} />
       </View>
     </View>
   );
