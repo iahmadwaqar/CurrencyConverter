@@ -5,9 +5,9 @@ import colors from './constants/colors';
 
 const App = () => {
   return (
-    // <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Navigation />
-    // </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
